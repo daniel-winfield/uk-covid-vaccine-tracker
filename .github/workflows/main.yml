@@ -1,0 +1,25 @@
+name: Deploy to Github Pages
+on: 
+  push:
+    branches: [master]
+    
+jobs:
+  deploy-to-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+        
+      - name: Setup .NET Core SDK 3.1
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 3.1
+      
+      - name: Publish .NET Core Project
+        run: dotnet publish UkCovidVaccineTracker.csproj -c Release -o release --nologo
+      
+      - name: Push wwwroot to Github Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: release/wwwroot
