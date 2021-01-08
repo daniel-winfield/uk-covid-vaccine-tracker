@@ -2,6 +2,11 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your Javascript code.
+
+const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
+const COLOUR_SECOND_JAB = '#f62aa0';
+const COLOUR_TARGET = '#b8ee30';
+
 var data = [
     {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":650714,"cumPeopleReceivingSecondDose":0},
     {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":963208,"cumPeopleReceivingSecondDose":0},
@@ -20,6 +25,18 @@ var firstDoseData = _.map(data, (d) => { return { t: new Date(d.date), y: d.cumP
 var secondDoseData = _.map(data, (d) => { return { t: new Date(d.date), y: d.cumPeopleReceivingSecondDose } });
 var targetLine = _.map(labels, (l) => { return { x: l, y: 13000000 } })
 
+var currentFirstDoseCount = _.max(firstDoseData, (d) => d.y).y;
+var currentSecondDoseCount = _.max(secondDoseData, (d) => d.y).y;
+
+var firstDoseElement = document.getElementById('firstDoseCount');
+var secondDoseElement = document.getElementById('secondDoseCount');
+
+firstDoseElement.innerText = Number(currentFirstDoseCount).toLocaleString();
+firstDoseElement.style.color = COLOUR_FIRST_JAB;
+
+secondDoseElement.innerText = Number(currentSecondDoseCount).toLocaleString();
+secondDoseElement.style.color = COLOUR_SECOND_JAB;
+
 var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
     type: 'line',
@@ -28,20 +45,20 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: 'First jab',
             fill: false,
-            backgroundColor: '#26dfd0',
-            borderColor: '#26dfd0',
+            backgroundColor: COLOUR_FIRST_JAB,
+            borderColor: COLOUR_FIRST_JAB,
             data: firstDoseData
         },{
             label: 'Second jab',
             fill: false,
-            backgroundColor: '#f62aa0',
-            borderColor: '#f62aa0',
+            backgroundColor: COLOUR_SECOND_JAB,
+            borderColor: COLOUR_SECOND_JAB,
             data: secondDoseData
         }, {
             label: 'Target',
             fill: false,
-            backgroundColor: '#b8ee30',
-            borderColor: '#b8ee30',
+            backgroundColor: COLOUR_TARGET,
+            borderColor: COLOUR_TARGET,
             borderDash: [5, 5],
             data: targetLine
         }]

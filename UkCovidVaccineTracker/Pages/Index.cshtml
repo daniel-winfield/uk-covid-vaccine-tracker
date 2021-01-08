@@ -1,12 +1,26 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Vaccine Tracker";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col">
+        <div class="text-center">
+            <h1 class="display-4">UK COVID-19 Vaccine Tracker</h1>
+        </div>
+    </div>
 </div>
-
-<canvas id="myChart" width="600" height="200"></canvas>
+<div class="row">
+    <div class="col-8">
+        <canvas id="myChart" width="600" height="200"></canvas>
+    </div>
+    <div class="col-4">
+        <div class="text-center">
+            <h1>First dose</h1>
+            <h1 id="firstDoseCount" class="display-3"></h1>
+            <h1>Second dose</h1>
+            <h1 id="secondDoseCount" class="display-3"></h1>
+        </div>
+    </div>
+</div>
