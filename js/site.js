@@ -6,22 +6,16 @@
 const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
 const COLOUR_SECOND_JAB = '#f62aa0';
 const COLOUR_TARGET = '#b8ee30';
+const MAX_DATE = '2021-03-01';
+const TARGET = 13000000;
 
 $.getJSON('json/data.json', (json) => {
     var data = _.sortBy(json.body, (i) => new Date(i.date));
 
-    var currentDate = new Date(data[0].date),
-    endDate = new Date("2021-02-01"),
-    labels = [];
-
-    while (currentDate < endDate) {
-        labels.push(currentDate.toLocaleString());
-        currentDate.setDate(currentDate.getDate() + 7)
-    }
-
-    var firstDoseData = _.map(data, (d) => { return { t: new Date(d.date), y: d.cumPeopleReceivingFirstDose } });
-    var secondDoseData = _.map(data, (d) => { return { t: new Date(d.date), y: d.cumPeopleReceivingSecondDose } });
-    var targetLine = _.map(labels, (l) => { return { x: l, y: 13000000 } })
+    var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleReceivingFirstDose } });
+    var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleReceivingSecondDose } });
+    var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
+    targetLine.push({ x: moment(MAX_DATE), y: TARGET });
 
     var currentFirstDoseCount = _.max(firstDoseData, (d) => d.y).y;
     var currentSecondDoseCount = _.max(secondDoseData, (d) => d.y).y;
@@ -39,38 +33,39 @@ $.getJSON('json/data.json', (json) => {
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
-            datasets: [{
-                label: 'First dose',
-                fill: false,
-                backgroundColor: COLOUR_FIRST_JAB,
-                borderColor: COLOUR_FIRST_JAB,
-                data: firstDoseData
-            },{
-                label: 'Second dose',
-                fill: false,
-                backgroundColor: COLOUR_SECOND_JAB,
-                borderColor: COLOUR_SECOND_JAB,
-                data: secondDoseData
-            }, {
-                label: 'Target',
-                fill: false,
-                backgroundColor: COLOUR_TARGET,
-                borderColor: COLOUR_TARGET,
-                borderDash: [5, 5],
-                data: targetLine
-            }]
+            datasets: [
+                {
+                    label: "First dose",
+                    data: firstDoseData,
+                    fill: false,
+                    borderColor: COLOUR_FIRST_JAB
+                },
+                {
+                    label: "Second dose",
+                    data: secondDoseData,
+                    fill: false,
+                    borderColor: COLOUR_SECOND_JAB
+                },
+                {
+                    label: "Target",
+                    data: targetLine,
+                    fill: false,
+                    borderColor: COLOUR_TARGET,
+                    borderDash: [5, 5],
+                }
+            ]
         },
         options: {
+            responsive: true,
             scales: {
-                xAxis: [{
-                    type: 'time',
+                xAxes: [{
+                    type: "time",
                     time: {
-                        unit: 'day',
-                        displayFormats: {
-                            'day': 'MMM DD'
-                         }
-                    }
+                        format: 'DD/MM/YYYY',
+                        tooltipFormat: 'll',
+                    },
+                }],
+                yAxes: [{
                 }]
             }
         }
