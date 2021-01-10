@@ -41,13 +41,13 @@ $.getJSON('json/data.json', (json) => {
         data: {
             labels: labels,
             datasets: [{
-                label: 'First jab',
+                label: 'First dose',
                 fill: false,
                 backgroundColor: COLOUR_FIRST_JAB,
                 borderColor: COLOUR_FIRST_JAB,
                 data: firstDoseData
             },{
-                label: 'Second jab',
+                label: 'Second dose',
                 fill: false,
                 backgroundColor: COLOUR_SECOND_JAB,
                 borderColor: COLOUR_SECOND_JAB,
@@ -66,7 +66,10 @@ $.getJSON('json/data.json', (json) => {
                 xAxis: [{
                     type: 'time',
                     time: {
-                        unit: 'day'
+                        unit: 'day',
+                        displayFormats: {
+                            'day': 'MMM DD'
+                         }
                     }
                 }]
             }
