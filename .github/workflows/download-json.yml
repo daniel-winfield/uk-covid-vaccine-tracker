@@ -27,4 +27,5 @@ jobs:
           add: './json/data.json'
           author_name: 'Daniel Winfield'
           author_email: daniel.winfield@outlook.com
+          branch: 'github-pages'
           message: 'Updating json data file'
