@@ -7,7 +7,7 @@ const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
 const COLOUR_SECOND_JAB = '#f62aa0';
 const COLOUR_TARGET = '#b8ee30';
 
-$.getJSON('json/overview_2021-01-09.json', (json) => {
+$.getJSON('json/data.json', (json) => {
     var data = _.sortBy(json.body, (i) => new Date(i.date));
 
     var currentDate = new Date(data[0].date),
