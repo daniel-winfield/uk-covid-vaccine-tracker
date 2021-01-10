@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # Download JSON from GOV.UK
-      - name: Download JSON from GOV.UK
+      - name: Download JSON from GOV.UK.
         uses: carlosperate/download-file-action@v1.0.3
         with:
           file-url:  'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumPeopleReceivingFirstDose&metric=cumPeopleReceivingSecondDose&format=json'
