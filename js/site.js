@@ -7,6 +7,10 @@ const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
 const COLOUR_SECOND_JAB = '#f62aa0';
 const COLOUR_TARGET = '#b8ee30';
 
+$.getJSON('json/overview_2021-01-09.json', (json) => {
+    debugger;
+});
+
 var data = [
     {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":650714,"cumPeopleReceivingSecondDose":0},
     {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":963208,"cumPeopleReceivingSecondDose":0},
