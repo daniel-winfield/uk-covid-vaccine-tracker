@@ -1,7 +1,7 @@
 name: Download-JSON
 on:
   schedule:
-    - cron: '0 4,12,15,18,21 * * *'
+    - cron: '0 6,9,12,15,18,21 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -13,6 +13,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          ref: 'github-pages'
 
       # Download JSON from GOV.UK
       - name: Download JSON from GOV.UK
@@ -27,4 +29,5 @@ jobs:
           add: './json/data.json'
           author_name: 'Daniel Winfield'
           author_email: daniel.winfield@outlook.com
+          branch: 'github-pages'
           message: 'Updating json data file'

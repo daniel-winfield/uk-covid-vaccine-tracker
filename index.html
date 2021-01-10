@@ -11,33 +11,37 @@
 <div class="container-fluid">
     <main role="main" class="pb-3">
         <div class="row">
-	    <div class="col">
-		<div class="text-center">
-		    <h1 class="display-4">UK COVID-19 Vaccine Tracker</h1>
+			<div class="col">
+				<div class="text-center">
+					<h1 class="display-4">UK COVID-19 Vaccine Tracker</h1>
+				</div>
+			</div>
 		</div>
-	    </div>
-	</div>
-	<div class="row">
-	    <div class="col-8">
-		<canvas id="myChart" width="600" height="200"></canvas>
-	    </div>
-	    <div class="col-4">
-		<div class="text-center">
-		    <h1>First dose</h1>
-		    <h1 id="firstDoseCount" class="display-3"></h1>
-		    <h1>Second dose</h1>
-		    <h1 id="secondDoseCount" class="display-3"></h1>
+		<div class="row">
+			<div class="col-12 col-md-8">
+			<canvas id="myChart" width="600" height="200"></canvas>
+			</div>
+			<div class="col-12 col-md-4">
+			<div class="text-center">
+				<h1>First dose</h1>
+				<h1 id="firstDoseCount" class="display-3"></h1>
+				<h1>Second dose</h1>
+				<h1 id="secondDoseCount" class="display-3"></h1>
+			</div>
+			</div>
 		</div>
-	    </div>
-	</div>
     </main>
+
+	<footer class="border-top footer text-muted text-wrap">
+		<div class="row">
+			<div class="col-12">
+				&copy; 2021 - <a href="https://danielwinfield.uk">Daniel Winfield</a> - Data sourced from <a href="https://coronavirus.data.gov.uk/">GOV.UK</a> under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
+			</div>
+		</div>
+	</footer>
+	
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2021 - <a href="https://danielwinfield.uk">Daniel Winfield</a> - Data sourced from <a href="https://coronavirus.data.gov.uk/">GOV.UK</a> under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
-    </div>
-</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/underscore@1.12.0/underscore-min.js"></script>
