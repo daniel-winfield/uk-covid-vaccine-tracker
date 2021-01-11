@@ -23,11 +23,11 @@ jobs:
           file-url:  'https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumPeopleReceivingFirstDose&metric=cumPeopleReceivingSecondDose&format=json'
           file-name: 'data.json'
           location: './json'
-      - name: Add and Commit
-        uses: EndBug/add-and-commit@v6
-        with:
-          add: './json/data.json'
-          author_name: 'Daniel Winfield'
-          author_email: daniel.winfield@outlook.com
-          branch: 'github-pages'
-          message: 'Updating json data file'
+      # - name: Add and Commit
+      #   uses: EndBug/add-and-commit@v6
+      #   with:
+      #     add: './json/data.json'
+      #     author_name: 'Daniel Winfield'
+      #     author_email: daniel.winfield@outlook.com
+      #     branch: 'github-pages'
+      #     message: 'Updating json data file'
