@@ -74,6 +74,7 @@ const UK_ADULT_POPULATION = 52403344;
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     type: "time",
