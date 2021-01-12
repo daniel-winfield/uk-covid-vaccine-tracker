@@ -6,7 +6,7 @@ const TARGET = 13000000;
 const UK_ADULT_POPULATION = 52403344;
 
 $.getJSON('json/data.json', (json) => {
-    var data = _.sortBy(json.body, (i) => new Date(i.date));
+    var data = _.sortBy(json.data, (i) => new Date(i.date));
 
 // var data = [
 //     {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":650714,"cumPeopleReceivingSecondDose":0},
