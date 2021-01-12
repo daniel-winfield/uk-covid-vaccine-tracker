@@ -98,7 +98,7 @@ const UK_ADULT_POPULATION = 52403344;
                         let dataset = data.datasets[tooltipItem.datasetIndex];
                         let cumDoses = dataset.data[tooltipItem.index];
 
-                        return dataset.label + ': ' +  Number(cumDoses.y).toLocaleString();
+                        return `${dataset.label}: ${Number(cumDoses.y).toLocaleString()}`;
                     }
                 }
             }
