@@ -5,14 +5,26 @@ const MAX_DATE = '2021-03-01';
 const TARGET = 13000000;
 const UK_ADULT_POPULATION = 52403344;
 
-$.getJSON('json/data.json', (json) => {
-    var data = _.sortBy(json.data, (i) => new Date(i.date));
+// $.getJSON('json/data.json', (json) => {
+//     var data = _.sortBy(json.data, (i) => new Date(i.date));
 
-// var data = [
-//     {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":650714,"cumPeopleReceivingSecondDose":0},
-//     {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":963208,"cumPeopleReceivingSecondDose":0},
-//     {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":1296432,"cumPeopleReceivingSecondDose":21313},
-//     {"date":"2021-01-09","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":1296432,"cumPeopleReceivingSecondDose":21313}]
+    // var data = _.sortBy([
+    //     {"date":"2021-01-11","cumPeopleVaccinatedFirstDoseByPublishDate":2080280,"cumPeopleVaccinatedSecondDoseByPublishDate":393925},
+    //     {"date":"2021-01-10","cumPeopleVaccinatedFirstDoseByPublishDate":1959151,"cumPeopleVaccinatedSecondDoseByPublishDate":374613},
+    //     {"date":"2021-01-11","cumPeopleVaccinatedFirstDoseByPublishDate":84187,"cumPeopleVaccinatedSecondDoseByPublishDate":15288},
+    //     {"date":"2021-01-10","cumPeopleVaccinatedFirstDoseByPublishDate":78005,"cumPeopleVaccinatedSecondDoseByPublishDate":13949},
+    //     {"date":"2021-01-11","cumPeopleVaccinatedFirstDoseByPublishDate":175942,"cumPeopleVaccinatedSecondDoseByPublishDate":2857},
+    //     {"date":"2021-01-10","cumPeopleVaccinatedFirstDoseByPublishDate":163377,"cumPeopleVaccinatedSecondDoseByPublishDate":2758},
+    //     {"date":"2021-01-11","cumPeopleVaccinatedFirstDoseByPublishDate":91239,"cumPeopleVaccinatedSecondDoseByPublishDate":97},
+    //     {"date":"2021-01-10","cumPeopleVaccinatedFirstDoseByPublishDate":86039,"cumPeopleVaccinatedSecondDoseByPublishDate":79}
+    // ], (i) => new Date(i.date));
+
+    var data = [
+    {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":650714,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
+    {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":963208,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
+    {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":1296432,"cumPeopleVaccinatedSecondDoseByPublishDate":21313},
+    {"date":"2021-01-10","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2286572,"cumPeopleVaccinatedSecondDoseByPublishDate":391399},
+    {"date":"2021-01-11","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2431648,"cumPeopleVaccinatedSecondDoseByPublishDate":412167}]
 
     var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
     var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
@@ -122,5 +134,4 @@ $.getJSON('json/data.json', (json) => {
             }
         }
     });
-    
-});
+// });
