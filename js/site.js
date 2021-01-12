@@ -14,8 +14,8 @@ $.getJSON('json/data.json', (json) => {
 //     {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":1296432,"cumPeopleReceivingSecondDose":21313},
 //     {"date":"2021-01-09","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleReceivingFirstDose":1296432,"cumPeopleReceivingSecondDose":21313}]
 
-    var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleReceivingFirstDose } });
-    var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleReceivingSecondDose } });
+    var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
+    var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
     var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
     targetLine.push({ x: moment(MAX_DATE), y: TARGET });
 
@@ -90,13 +90,13 @@ $.getJSON('json/data.json', (json) => {
         data: {
             labels: ["Vaccinated", "Population"],
             datasets: [{
-                data: [_.last(data).cumPeopleReceivingFirstDose, UK_ADULT_POPULATION],
+                data: [_.last(data).cumPeopleVaccinatedFirstDoseByPublishDate, UK_ADULT_POPULATION],
                 backgroundColor: [
                     COLOUR_FIRST_JAB,
                     '#b4b4b4'
                 ]
             }, {
-                data: [_.last(data).cumPeopleReceivingSecondDose, UK_ADULT_POPULATION],
+                data: [_.last(data).cumPeopleVaccinatedSecondDoseByPublishDate, UK_ADULT_POPULATION],
                 backgroundColor: [
                     COLOUR_SECOND_JAB,
                     '#b4b4b4'
