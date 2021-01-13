@@ -10,14 +10,14 @@ $.getJSON('json/data.json', (json) => {
 
 
     // var data = [
-    // {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByVaccinationDate":650714,"cumPeopleVaccinatedSecondDoseByVaccinationDate":0},
-    // {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByVaccinationDate":963208,"cumPeopleVaccinatedSecondDoseByVaccinationDate":0},
-    // {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByVaccinationDate":1296432,"cumPeopleVaccinatedSecondDoseByVaccinationDate":21313},
-    // {"date":"2021-01-10","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByVaccinationDate":2286572,"cumPeopleVaccinatedSecondDoseByVaccinationDate":391399},
-    // {"date":"2021-01-11","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByVaccinationDate":2431648,"cumPeopleVaccinatedSecondDoseByVaccinationDate":412167}]
+    // {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":650714,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
+    // {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":963208,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
+    // {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":1296432,"cumPeopleVaccinatedSecondDoseByPublishDate":21313},
+    // {"date":"2021-01-10","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2286572,"cumPeopleVaccinatedSecondDoseByPublishDate":391399},
+    // {"date":"2021-01-11","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2431648,"cumPeopleVaccinatedSecondDoseByPublishDate":412167}]
 
-    var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByVaccinationDate } });
-    var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByVaccinationDate } });
+    var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
+    var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
     var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
     targetLine.push({ x: moment(MAX_DATE), y: TARGET });
 
@@ -101,13 +101,13 @@ $.getJSON('json/data.json', (json) => {
         data: {
             labels: ["Vaccinated", "Population"],
             datasets: [{
-                data: [_.last(data).cumPeopleVaccinatedFirstDoseByVaccinationDate, UK_ADULT_POPULATION],
+                data: [_.last(data).cumPeopleVaccinatedFirstDoseByPublishDate, UK_ADULT_POPULATION],
                 backgroundColor: [
                     COLOUR_FIRST_JAB,
                     '#b4b4b4'
                 ]
             }, {
-                data: [_.last(data).cumPeopleVaccinatedSecondDoseByVaccinationDate, UK_ADULT_POPULATION],
+                data: [_.last(data).cumPeopleVaccinatedSecondDoseByPublishDate, UK_ADULT_POPULATION],
                 backgroundColor: [
                     COLOUR_SECOND_JAB,
                     '#b4b4b4'
