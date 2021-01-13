@@ -6,7 +6,7 @@ const TARGET = 13000000;
 const UK_ADULT_POPULATION = 52403344;
 
 $.getJSON('json/data.json', (json) => {
-    var data = _.sortBy(json.data, (i) => new Date(i.date));
+    var data = _.sortBy(json.body, (i) => new Date(i.date));
 
 
     // var data = [
