@@ -2,8 +2,6 @@ name: Download-JSON
 on:
   push:
     branches: [ github-pages ]
-  pull_request:
-    branches: [ github-pages ]
   schedule:
     - cron: '0 * * * *'
 

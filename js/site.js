@@ -11,12 +11,34 @@ var setupChart = function(htmlElementId, chartData) {
     new Chart(htmlElement, chartData);
 };
 
-var setupCurrentCount = function(htmlElementId, data, colour) {
-    let htmlElement = document.getElementById(htmlElementId);
+var setupCurrentCount = function(countHtmlElementId, changeHtmlElementId, data, colour) {
+    let countHtmlElement = document.getElementById(countHtmlElementId);
+    let changeHtmlElement = document.getElementById(changeHtmlElementId);
     let latestCount = _.max(data, (d) => d.y).y;
+    let latestDailyChange = getLatestDailyChange(data);
 
-    htmlElement.innerText = Number(latestCount).toLocaleString();
-    htmlElement.style.color = colour;
+    countHtmlElement.innerText = Number(latestCount).toLocaleString();
+    countHtmlElement.style.color = colour;
+
+    changeHtmlElement.innerText = `An increase of ${Number(latestDailyChange).toLocaleString()} in the past day`;
+};
+
+var getLatestDailyChange = function(data) {
+    let mostRecent = { x: null, y: 0 };
+    let secondMostRecent = { x: null, y: 0 };
+
+    data.forEach(i => {
+        if (i.x > secondMostRecent.x) {
+            if (i.x > mostRecent.x) {
+                secondMostRecent = mostRecent;
+                mostRecent = i;
+            } else {
+                secondMostRecent = i;
+            }
+        }
+    });
+
+    return mostRecent.y - secondMostRecent.y;
 };
 
 var setupCharts = function(json) {
@@ -27,8 +49,8 @@ var setupCharts = function(json) {
     var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
     targetLine.push({ x: moment(MAX_DATE), y: TARGET });
 
-    setupCurrentCount('firstDoseCount', firstDoseData, COLOUR_FIRST_JAB);
-    setupCurrentCount('secondDoseCount', secondDoseData, COLOUR_SECOND_JAB);
+    setupCurrentCount('firstDoseCount', 'firstDoseChange', firstDoseData, COLOUR_FIRST_JAB);
+    setupCurrentCount('secondDoseCount', 'secondDoseChange', secondDoseData, COLOUR_SECOND_JAB);
 
     setupChart('cumVaccineDoses', {
         type: 'line',
