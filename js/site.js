@@ -4,36 +4,33 @@ const COLOUR_TARGET = '#b8ee30';
 const MAX_DATE = '2021-03-01';
 const TARGET = 13000000;
 const UK_ADULT_POPULATION = 52403344;
+const IS_DEVELOPMENT = false;
 
-$.getJSON('json/data.json', (json) => {
+var setupChart = function(htmlElementId, chartData) {
+    let htmlElement = document.getElementById(htmlElementId);
+    new Chart(htmlElement, chartData);
+};
+
+var setupCurrentCount = function(htmlElementId, data, colour) {
+    let htmlElement = document.getElementById(htmlElementId);
+    let latestCount = _.max(data, (d) => d.y).y;
+
+    htmlElement.innerText = Number(latestCount).toLocaleString();
+    htmlElement.style.color = colour;
+};
+
+var setupCharts = function(json) {
     var data = _.sortBy(json.body, (i) => new Date(i.date));
-
-    // var data = [
-    // {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":650714,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
-    // {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":963208,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
-    // {"date":"2021-01-03","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":1296432,"cumPeopleVaccinatedSecondDoseByPublishDate":21313},
-    // {"date":"2021-01-10","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2286572,"cumPeopleVaccinatedSecondDoseByPublishDate":391399},
-    // {"date":"2021-01-11","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":2431648,"cumPeopleVaccinatedSecondDoseByPublishDate":412167}]
 
     var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
     var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
     var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
     targetLine.push({ x: moment(MAX_DATE), y: TARGET });
 
-    var currentFirstDoseCount = _.max(firstDoseData, (d) => d.y).y;
-    var currentSecondDoseCount = _.max(secondDoseData, (d) => d.y).y;
+    setupCurrentCount('firstDoseCount', firstDoseData, COLOUR_FIRST_JAB);
+    setupCurrentCount('secondDoseCount', secondDoseData, COLOUR_SECOND_JAB);
 
-    var firstDoseElement = document.getElementById('firstDoseCount');
-    var secondDoseElement = document.getElementById('secondDoseCount');
-
-    firstDoseElement.innerText = Number(currentFirstDoseCount).toLocaleString();
-    firstDoseElement.style.color = COLOUR_FIRST_JAB;
-
-    secondDoseElement.innerText = Number(currentSecondDoseCount).toLocaleString();
-    secondDoseElement.style.color = COLOUR_SECOND_JAB;
-
-    var cumVaccineDoses = document.getElementById('cumVaccineDoses');
-    var chartLine = new Chart(cumVaccineDoses, {
+    setupChart('cumVaccineDoses', {
         type: 'line',
         data: {
             datasets: [
@@ -98,8 +95,7 @@ $.getJSON('json/data.json', (json) => {
         }
     });
 
-    var percentageVaccinated = document.getElementById('percentageVaccinated');
-    var chartDoughnut = new Chart(percentageVaccinated, {
+    setupChart('percentageVaccinated', {
         type: 'doughnut',
         data: {
             labels: ["Vaccinated", "Population"],
@@ -136,4 +132,17 @@ $.getJSON('json/data.json', (json) => {
             }
         }
     });
-});
+};
+
+if (!IS_DEVELOPMENT) {
+    $.getJSON('json/data.json', (json) => {
+        setupCharts(json);
+    });    
+} else {
+    setupCharts({"length":4,"body":[
+        {"date":"2021-01-13","cumPeopleVaccinatedFirstDoseByPublishDate":2918252,"cumPeopleVaccinatedSecondDoseByPublishDate":437977},
+        {"date":"2021-01-12","cumPeopleVaccinatedFirstDoseByPublishDate":2639309,"cumPeopleVaccinatedSecondDoseByPublishDate":428232},
+        {"date":"2021-01-11","cumPeopleVaccinatedFirstDoseByPublishDate":2431648,"cumPeopleVaccinatedSecondDoseByPublishDate":412167},
+        {"date":"2021-01-10","cumPeopleVaccinatedFirstDoseByPublishDate":2286572,"cumPeopleVaccinatedSecondDoseByPublishDate":391399}
+    ]});
+}
