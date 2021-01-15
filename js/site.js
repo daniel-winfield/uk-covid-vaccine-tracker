@@ -8,7 +8,6 @@ const UK_ADULT_POPULATION = 52403344;
 $.getJSON('json/data.json', (json) => {
     var data = _.sortBy(json.body, (i) => new Date(i.date));
 
-
     // var data = [
     // {"date":"2020-12-20","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":650714,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
     // {"date":"2020-12-27","areaType":"overview","areaCode":"K02000001","areaName":"United Kingdom","cumPeopleVaccinatedFirstDoseByPublishDate":963208,"cumPeopleVaccinatedSecondDoseByPublishDate":0},
@@ -43,14 +42,16 @@ $.getJSON('json/data.json', (json) => {
                     data: firstDoseData,
                     fill: false,
                     borderColor: COLOUR_FIRST_JAB,
-                    backgroundColor: COLOUR_FIRST_JAB
+                    backgroundColor: COLOUR_FIRST_JAB,
+                    pointRadius: 2
                 },
                 {
                     label: "Second dose",
                     data: secondDoseData,
                     fill: false,
                     borderColor: COLOUR_SECOND_JAB,
-                    backgroundColor: COLOUR_SECOND_JAB
+                    backgroundColor: COLOUR_SECOND_JAB,
+                    pointRadius: 2
                 },
                 {
                     label: "Target",
@@ -59,6 +60,7 @@ $.getJSON('json/data.json', (json) => {
                     borderColor: COLOUR_TARGET,
                     backgroundColor: COLOUR_TARGET,
                     borderDash: [5, 5],
+                    pointRadius: 0
                 }
             ]
         },
@@ -82,7 +84,8 @@ $.getJSON('json/data.json', (json) => {
                 }]
             },
             tooltips: {
-                mode: 'x',
+                mode: 'index',
+                intersect: false,
                 callbacks: {
                     label: (tooltipItem, data) => {
                         let dataset = data.datasets[tooltipItem.datasetIndex];
