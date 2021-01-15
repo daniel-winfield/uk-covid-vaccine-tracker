@@ -1,8 +1,8 @@
 ﻿const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
 const COLOUR_SECOND_JAB = '#f62aa0';
 const COLOUR_TARGET = '#b8ee30';
-const MAX_DATE = '2021-03-01';
-const TARGET = 13000000;
+const MAX_DATE = '2021-02-15';
+const TARGET = 14000000;
 const UK_ADULT_POPULATION = 52403344;
 const IS_DEVELOPMENT = false;
 
@@ -43,7 +43,7 @@ var setupCharts = function(json) {
                     pointRadius: 2
                 },
                 {
-                    label: "Second dose",
+                    label: "Both doses",
                     data: secondDoseData,
                     fill: false,
                     borderColor: COLOUR_SECOND_JAB,
