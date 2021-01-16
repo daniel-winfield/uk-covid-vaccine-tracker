@@ -23,6 +23,14 @@ var setupCurrentCount = function(countHtmlElementId, changeHtmlElementId, data, 
     changeHtmlElement.innerText = `An increase of ${Number(latestDailyChange).toLocaleString()} in the past day`;
 };
 
+var setupCurrentPercentage = function(htmlElementId, data, colour) {
+    let htmlElement = document.getElementById(htmlElementId);
+    let latestPercentage = (_.max(data, (d) => d.y).y / UK_ADULT_POPULATION) * 100;
+
+    htmlElement.innerText = `${Number(latestPercentage).toLocaleString()}%`;
+    htmlElement.style.color = colour;
+};
+
 var getLatestDailyChange = function(data) {
     let mostRecent = { x: null, y: 0 };
     let secondMostRecent = { x: null, y: 0 };
@@ -51,6 +59,8 @@ var setupCharts = function(json) {
 
     setupCurrentCount('firstDoseCount', 'firstDoseChange', firstDoseData, COLOUR_FIRST_JAB);
     setupCurrentCount('secondDoseCount', 'secondDoseChange', secondDoseData, COLOUR_SECOND_JAB);
+    setupCurrentPercentage('firstDosePercentage', firstDoseData, COLOUR_FIRST_JAB);
+    setupCurrentPercentage('secondDosePercentage', secondDoseData, COLOUR_SECOND_JAB);
 
     setupChart('cumVaccineDoses', {
         type: 'line',
