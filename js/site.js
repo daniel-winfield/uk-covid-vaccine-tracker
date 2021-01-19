@@ -55,7 +55,10 @@ var setupCharts = function(json) {
     var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
     var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
     var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
-    targetLine.push({ x: moment(MAX_DATE), y: TARGET });
+
+    if (moment(MAX_DATE) > moment()) {
+        targetLine.push({ x: moment(MAX_DATE), y: TARGET });
+    }
 
     setupCurrentCount('firstDoseCount', 'firstDoseChange', firstDoseData, COLOUR_FIRST_JAB);
     setupCurrentCount('secondDoseCount', 'secondDoseChange', secondDoseData, COLOUR_SECOND_JAB);
@@ -83,7 +86,7 @@ var setupCharts = function(json) {
                     pointRadius: 2
                 },
                 {
-                    label: "Target",
+                    label: "Current target",
                     data: targetLine,
                     fill: false,
                     borderColor: COLOUR_TARGET,
@@ -153,6 +156,9 @@ var setupCharts = function(json) {
             tooltips: {
                 mode: 'dataset',
                 callbacks: {
+                    label: (tooltipItem, data) => {
+                        return Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toLocaleString();
+                    },
                     afterBody: (tooltipItem, data) => {
                         let dataset = data.datasets[tooltipItem[0].datasetIndex];
                         let cumDoses = dataset.data[0];
