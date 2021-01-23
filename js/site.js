@@ -121,9 +121,14 @@ var setupCharts = function(json) {
                 callbacks: {
                     label: (tooltipItem, data) => {
                         let dataset = data.datasets[tooltipItem.datasetIndex];
-                        let cumDoses = dataset.data[tooltipItem.index];
+                        let cumDoses = dataset.data[tooltipItem.index].y;
+                        let changeFromPrevDay = '';
 
-                        return `${dataset.label}: ${Number(cumDoses.y).toLocaleString()}`;
+                        if (tooltipItem.index > 0 && tooltipItem.datasetIndex != 2) {
+                            changeFromPrevDay = `(+${Number(cumDoses - dataset.data[tooltipItem.index - 1].y).toLocaleString()})`;
+                        }
+
+                        return `${dataset.label}: ${Number(cumDoses).toLocaleString()} ${changeFromPrevDay}`;
                     }
                 }
             }
