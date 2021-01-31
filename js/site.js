@@ -1,6 +1,8 @@
-﻿const COLOUR_FIRST_JAB = 'rgb(28 156 146)';
-const COLOUR_SECOND_JAB = '#f62aa0';
+﻿Chart.plugins.unregister(ChartDataLabels);
+const COLOUR_FIRST_JAB = '#273c75';
+const COLOUR_SECOND_JAB = '#218c74';
 const COLOUR_TARGET = '#b8ee30';
+const COLOUR_UNVACCINATED = '#b33939';
 const MAX_DATE = '2021-02-15';
 const TARGET = 14000000;
 const UK_ADULT_POPULATION = 52403344;
@@ -130,46 +132,69 @@ var setupCharts = function(json) {
 
                         return `${dataset.label}: ${Number(cumDoses).toLocaleString()} ${changeFromPrevDay}`;
                     }
-                }
+                },
+                position: 'nearest'
             }
         }
     });
 
+    let bothDoses = _.last(data).cumPeopleVaccinatedSecondDoseByPublishDate;
+    let firstDoseOnly = _.last(data).cumPeopleVaccinatedFirstDoseByPublishDate - bothDoses;
+    let unvaccinated = UK_ADULT_POPULATION - firstDoseOnly - bothDoses;
+
     setupChart('percentageVaccinated', {
+        plugins: [ChartDataLabels],
         type: 'doughnut',
         data: {
-            labels: ["Vaccinated", "Population"],
+            labels: ["First dose only", "Both doses", "Unvaccinated"],
             datasets: [{
-                data: [_.last(data).cumPeopleVaccinatedFirstDoseByPublishDate, UK_ADULT_POPULATION],
+                data: [firstDoseOnly, bothDoses, unvaccinated],
                 backgroundColor: [
                     COLOUR_FIRST_JAB,
-                    '#b4b4b4'
-                ]
-            }, {
-                data: [_.last(data).cumPeopleVaccinatedSecondDoseByPublishDate, UK_ADULT_POPULATION],
-                backgroundColor: [
                     COLOUR_SECOND_JAB,
-                    '#b4b4b4'
+                    COLOUR_UNVACCINATED
                 ]
             }]
         },
         options: {
+            cutoutPercentage: 60,
             responsive: true,
             legend: {
                 display: false
             },
             tooltips: {
-                mode: 'dataset',
                 callbacks: {
                     label: (tooltipItem, data) => {
-                        return Number(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toLocaleString();
-                    },
-                    afterBody: (tooltipItem, data) => {
-                        let dataset = data.datasets[tooltipItem[0].datasetIndex];
-                        let cumDoses = dataset.data[0];
-                        let pop = dataset.data[1];
+                        let dataset = data.datasets[tooltipItem.datasetIndex];
+                        let category = dataset.data[tooltipItem.index];
+                        let pop = UK_ADULT_POPULATION;
 
-                        return Number((cumDoses / pop) * 100).toLocaleString() + '%';
+                        let categoryLabel = data.labels[tooltipItem.index];
+                        let categoryCount = Number(category).toLocaleString();
+                        let categoryPercentage = `${Number((category / pop) * 100).toLocaleString()}%`;
+
+                        return `${categoryLabel}: ${categoryCount} (${categoryPercentage})`;
+                    }
+                }
+            },
+            plugins: {
+                datalabels: {
+                    display: 'auto',
+                    anchor: 'centre',
+                    color: function(context) {
+                        return context.dataset.backgroundColor;
+                    },
+                    borderRadius: 15,
+                    borderWidth: 2,
+                    backgroundColor: 'white',
+                    font: {
+                        weight: 'bold',
+                        size: '15'
+                    },
+                    padding: 6,
+                    formatter: function(value, context) {
+                        let percentage = Number((value / UK_ADULT_POPULATION) * 100).toLocaleString(undefined, { maximumFractionDigits: 0 });
+                        return `${percentage}%`;
                     }
                 }
             }
