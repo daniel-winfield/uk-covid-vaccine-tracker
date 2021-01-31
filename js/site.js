@@ -108,11 +108,18 @@ var setupCharts = function(json) {
                         format: 'DD/MM/YYYY',
                         tooltipFormat: 'll',
                     },
+                    gridLines: {
+                        display: true,
+                        drawOnChartArea: false,
+                    }
                 }],
                 yAxes: [{
                     ticks: {
                         callback: function (value) {
-                            return Number(value).toLocaleString()
+                            if (value === 0) {
+                                return 0;
+                            }
+                            return `${Number(value / 1000000).toLocaleString()}m`
                         }
                     }
                 }]
