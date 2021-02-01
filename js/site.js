@@ -67,6 +67,8 @@ var setupCharts = function(json) {
     setupCurrentPercentage('firstDosePercentage', firstDoseData, COLOUR_FIRST_JAB);
     setupCurrentPercentage('secondDosePercentage', secondDoseData, COLOUR_SECOND_JAB);
 
+    Chart.defaults.global.legend.labels.usePointStyle = true;
+
     setupChart('cumVaccineDoses', {
         type: 'line',
         data: {
@@ -99,8 +101,8 @@ var setupCharts = function(json) {
             ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            // responsive: true,
+            maintainAspectRatio: true,
             scales: {
                 xAxes: [{
                     type: "time",
