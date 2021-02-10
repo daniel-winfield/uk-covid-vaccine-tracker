@@ -169,7 +169,7 @@ var setupCharts = function(json) {
             cutoutPercentage: 60,
             responsive: true,
             legend: {
-                display: false
+                display: true
             },
             tooltips: {
                 callbacks: {
