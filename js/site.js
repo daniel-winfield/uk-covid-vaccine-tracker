@@ -4,7 +4,7 @@ const COLOUR_SECOND_JAB = '#218c74';
 const COLOUR_TARGET = '#b8ee30';
 const COLOUR_UNVACCINATED = '#b33939';
 const MAX_DATE = '2021-02-15';
-const TARGET = 14000000;
+const TARGET = 15000000;
 const UK_ADULT_POPULATION = 52403344;
 const IS_DEVELOPMENT = false;
 
@@ -90,7 +90,7 @@ var setupCharts = function(json) {
                     pointRadius: 2
                 },
                 {
-                    label: "Current target",
+                    label: "February 15th target",
                     data: targetLine,
                     fill: false,
                     borderColor: COLOUR_TARGET,
