@@ -90,7 +90,7 @@ var setupCharts = function(json) {
                     pointRadius: 2
                 },
                 {
-                    label: "Current target",
+                    label: "February 15th target",
                     data: targetLine,
                     fill: false,
                     borderColor: COLOUR_TARGET,
