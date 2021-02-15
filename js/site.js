@@ -3,10 +3,21 @@ const COLOUR_FIRST_JAB = '#273c75';
 const COLOUR_SECOND_JAB = '#218c74';
 const COLOUR_TARGET = '#b8ee30';
 const COLOUR_UNVACCINATED = '#b33939';
-const MAX_DATE = '2021-02-15';
-const TARGET = 15000000;
+const MAX_DATE = '2021-05-06';
 const UK_ADULT_POPULATION = 52403344;
 const IS_DEVELOPMENT = false;
+const TARGETS = [
+    {
+        label: 'Vaccine groups 1-4',
+        date: '2021-02-15', 
+        target: 15000000,
+        colour: '#b8ee30'
+    }, { 
+        label: 'Vaccine groups 5-9',
+        date: '2021-05-06', 
+        target: 32000000,
+        colour: '#b8ee30'
+    }]
 
 var setupChart = function(htmlElementId, chartData) {
     let htmlElement = document.getElementById(htmlElementId);
@@ -51,54 +62,64 @@ var getLatestDailyChange = function(data) {
     return mostRecent.y - secondMostRecent.y;
 };
 
+var generateTargetData = function(data, target) {
+    var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: target.target } })
+
+    if (moment(MAX_DATE) > moment()) {
+        targetLine.push({ x: moment(MAX_DATE), y: target.target });
+    }
+
+    return {
+        label: target.label,
+        data: targetLine,
+        fill: false,
+        borderColor: target.colour,
+        backgroundColor: target.colour,
+        borderDash: [5, 5],
+        pointRadius: 0
+    }
+}
+
 var setupCharts = function(json) {
     var data = _.sortBy(json.body, (i) => new Date(i.date));
 
     var firstDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedFirstDoseByPublishDate } });
     var secondDoseData = _.map(data, (d) => { return { x: moment(d.date), y: d.cumPeopleVaccinatedSecondDoseByPublishDate } });
-    var targetLine = _.map(data, (d) => { return { x: moment(d.date), y: TARGET } })
-
-    if (moment(MAX_DATE) > moment()) {
-        targetLine.push({ x: moment(MAX_DATE), y: TARGET });
-    }
 
     setupCurrentCount('firstDoseCount', 'firstDoseChange', firstDoseData, COLOUR_FIRST_JAB);
     setupCurrentCount('secondDoseCount', 'secondDoseChange', secondDoseData, COLOUR_SECOND_JAB);
     setupCurrentPercentage('firstDosePercentage', firstDoseData, COLOUR_FIRST_JAB);
     setupCurrentPercentage('secondDosePercentage', secondDoseData, COLOUR_SECOND_JAB);
 
+    var datasets = [];
+    datasets.push({
+        label: "First dose",
+        data: firstDoseData,
+        fill: false,
+        borderColor: COLOUR_FIRST_JAB,
+        backgroundColor: COLOUR_FIRST_JAB,
+        pointRadius: 2
+    });
+    datasets.push({
+        label: "Both doses",
+        data: secondDoseData,
+        fill: false,
+        borderColor: COLOUR_SECOND_JAB,
+        backgroundColor: COLOUR_SECOND_JAB,
+        pointRadius: 2
+    });
+
+    TARGETS.forEach(target => {
+        datasets.push(generateTargetData(data, target));
+    });
+
+  
     Chart.defaults.global.legend.labels.usePointStyle = true;
 
     setupChart('cumVaccineDoses', {
         type: 'line',
         data: {
-            datasets: [
-                {
-                    label: "First dose",
-                    data: firstDoseData,
-                    fill: false,
-                    borderColor: COLOUR_FIRST_JAB,
-                    backgroundColor: COLOUR_FIRST_JAB,
-                    pointRadius: 2
-                },
-                {
-                    label: "Both doses",
-                    data: secondDoseData,
-                    fill: false,
-                    borderColor: COLOUR_SECOND_JAB,
-                    backgroundColor: COLOUR_SECOND_JAB,
-                    pointRadius: 2
-                },
-                {
-                    label: "February 15th target",
-                    data: targetLine,
-                    fill: false,
-                    borderColor: COLOUR_TARGET,
-                    backgroundColor: COLOUR_TARGET,
-                    borderDash: [5, 5],
-                    pointRadius: 0
-                }
-            ]
+            datasets: datasets
         },
         options: {
             // responsive: true,
@@ -135,7 +156,8 @@ var setupCharts = function(json) {
                         let cumDoses = dataset.data[tooltipItem.index].y;
                         let changeFromPrevDay = '';
 
-                        if (tooltipItem.index > 0 && tooltipItem.datasetIndex != 2) {
+                        // Exclude targets from daily change in tooltip
+                        if (tooltipItem.index > 0 && tooltipItem.datasetIndex < 2) {
                             changeFromPrevDay = `(+${Number(cumDoses - dataset.data[tooltipItem.index - 1].y).toLocaleString()})`;
                         }
 
