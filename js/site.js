@@ -97,7 +97,7 @@ var setupCharts = function(json) {
         fill: false,
         borderColor: COLOUR_FIRST_JAB,
         backgroundColor: COLOUR_FIRST_JAB,
-        pointRadius: 2
+        pointRadius: 1
     });
     datasets.push({
         label: "Both doses",
@@ -105,7 +105,7 @@ var setupCharts = function(json) {
         fill: false,
         borderColor: COLOUR_SECOND_JAB,
         backgroundColor: COLOUR_SECOND_JAB,
-        pointRadius: 2
+        pointRadius: 1
     });
 
     TARGETS.forEach(target => {
